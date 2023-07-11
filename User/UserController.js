@@ -2,30 +2,12 @@ const express = require("express");
 const router = express.Router();
 const User = require('./User');
 const bcrypt = require('bcryptjs');
+const session = require('express-session');
 const { Op } = require('sequelize');
 
 
 router.post('/store',(req,res)=>{
     let {nick, email, password, password_confirm, agree_terms} =  req.body;
-/*
-    if (nick == undefined || nick == '') {
-        res.redirect('/');
-    }
-    if (email == undefined || email == '') {
-        res.redirect('/');
-    }
-    if (password == undefined || password == '') {
-        res.redirect('/');
-    }
-    if (password_confirm == undefined || password_confirm == '') {
-        res.redirect('/');
-    }
-    if (agree_terms == undefined || agree_terms == '') {
-        res.redirect('/');
-    }else{
-        agree_terms = true;
-    }
-*/
     
     User.findOne({
         where:{
@@ -65,7 +47,6 @@ router.post('/store',(req,res)=>{
                 return;
             }
 
-
         }else{
             if(nick == user.nick){
                 res.statusCode = 400;
@@ -85,7 +66,38 @@ router.post('/store',(req,res)=>{
         return;
     });
 
-    //res.json({nick, email, password, password_confirm, agree_terms});
+});
+
+router.post('/login',(req,res)=>{
+    let {email, password} = req.body;
+
+    User.findOne({
+        where:{
+            email: email
+        }
+    }).then((user) => {
+        console.log("passamos aqui");
+        console.log(user);
+
+        if (user) {
+            let correct_password = bcrypt.compareSync(password, user.password);
+
+            if (correct_password) {
+                req.session.user = {
+                    user: user.id,
+                    nick: user.nick
+                }
+                res.redirect('/home');
+            }else{
+                res.json({erro: "A senha esta incorreta"});
+            }
+
+        }else{
+            res.json({erro: "O usuario nao foi encontrado"});
+        }
+    }).catch((err) => {
+        res.json('erro');
+    });
 });
 
 module.exports = router;

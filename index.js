@@ -6,6 +6,14 @@ const connection = require(database);
 const port = 8080;
 const app = express();
 
+// Session
+app.use(session({
+    secret: "Eu amo minha fernanda",
+    cookie: {
+        maxAge: 600000
+    }
+}))
+
 // database
 connection
     .authenticate()
