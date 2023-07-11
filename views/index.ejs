@@ -1,0 +1,45 @@
+<%- include("partials/header.ejs") %>
+<%- include("partials/navbar.ejs") %>
+
+<div class="container vh-100">
+    <div class="row">
+        <div class="col col-6">
+            <h3>
+                Deixe a sua marca!
+            </h3>
+            <div class="card mt-5 mb-3">
+                <h5 class="card-header">Bem vindo a sua rede social</h5>
+                <div class="card-body">
+                <p class="card-text">Aqui é aonde você pode escrever seus pensamento, dizer como foi seu dia ou até mesmo xingar um famoso.</p>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col col-6 mt-5">
+            <form action="/store" class="form-control p-4" method="post" style="display: none; background-color:#d0e0e3;" id="cadastro">
+                <h4>Sign-up</h4>
+                <input type="text" name="nick" id="nick" placeholder="Nick" class="form-control mb-1">
+                <input type="email" name="email" id="email" placeholder="Email" class="form-control mb-1">
+                <input type="password" name="password" id="password" placeholder="Password" class="form-control mb-1">
+                <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm your password" class="form-control mb-1">
+                <input type="checkbox" name="agree_terms" id="agree_terms" class="form-check-input mb-1">
+                <label for="agree_terms" class="form-check-label mb-1">Li e concordo com os termos.</label>
+                <button type="submit" class="d-block btn btn-outline-success form-control mt-1">Cadastrar</button>
+            </form>
+            <form action="#" class="form-control p-4" method="post" style="background-color:#d0e0e3;" id="login">
+                <h4>Log-in</h4>
+                <input type="email" name="email" id="email" placeholder="Email" class="form-control mt-4 mb-1">
+                <input type="password" name="password" id="password" placeholder="Password" class="form-control mb-1">
+                <button type="submit" class="d-block btn btn-outline-success form-control mt-1">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let cadastro = document.querySelector("#cadastro");
+    let login = document.querySelector("#login");
+
+</script>
+
+<%- include("partials/footer") %>
