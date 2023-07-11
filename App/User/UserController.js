@@ -30,8 +30,12 @@ router.post('/store',(req,res)=>{
                         email,
                         password: hash,
                         terms: true
-                    }).then(() => {
-                        res.send("cadastrado");
+                    }).then((user) => {
+                        req.session.user = {
+                            id: user.id,
+                            nick: user.nick
+                        }
+                        res.redirect('/home');
                     }).catch((err) => {
                         res.send(err);
                         return;
@@ -76,15 +80,12 @@ router.post('/login',(req,res)=>{
             email: email
         }
     }).then((user) => {
-        console.log("passamos aqui");
-        console.log(user);
-
         if (user) {
             let correct_password = bcrypt.compareSync(password, user.password);
 
             if (correct_password) {
                 req.session.user = {
-                    user: user.id,
+                    id: user.id,
                     nick: user.nick
                 }
                 res.redirect('/home');
@@ -97,6 +98,12 @@ router.post('/login',(req,res)=>{
         }
     }).catch((err) => {
         res.json('erro');
+    });
+});
+
+router.post('/logout', (req,res)=>{
+    req.session.destroy(()=>{
+        res.redirect('/');
     });
 });
 

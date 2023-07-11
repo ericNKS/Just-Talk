@@ -1,6 +1,7 @@
 function Auth(req,res,next) {
     let user = req.session.user;
     if (user) {
+        console.log(user);
         // Se tiver na sessao o usuario ele vai permitir ir para a pagina home
         next();
     }else{

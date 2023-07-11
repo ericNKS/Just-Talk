@@ -7,10 +7,12 @@ const port = 8080;
 const app = express();
 
 // Session
+let tempoSession = 3600000;
+
 app.use(session({
     secret: "Eu amo minha fernanda",
     cookie: {
-        maxAge: 600000
+        maxAge: tempoSession
     }
 }))
 
@@ -25,11 +27,13 @@ connection
     });
 
 // Models
-const User = require('./User/User');
+const User = require('./App/User/User');
+const Conteudo = require('./App/Conteudo/Conteudo');
 
 // Controllers
-const JustTalkController = require('./Just_talk/JustTalkController');
-const UserController = require('./User/UserController');
+const JustTalkController = require('./App/Just_talk/JustTalkController');
+const UserController = require('./App/User/UserController');
+const ConteudoController = require('./App/Conteudo/ConteudoController');
 
 // View engine
 app.set("view engine", "ejs");
@@ -44,6 +48,7 @@ app.use(bodyParser.json());
 // JUST TALK routes
 app.use('/', JustTalkController);
 app.use('/', UserController);
+app.use('/', ConteudoController);
 
 
 

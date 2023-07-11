@@ -1,0 +1,61 @@
+.conteudos{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 7px;
+    height: 90vh;
+    overflow-y: auto;
+}
+.post .post-header{
+    height: 30px;
+    background: white;
+    border-bottom: 1px solid rgba(185, 185, 185, 0.37);
+}
+.post .post-body{
+    padding: 10px;
+    background: white;
+}
+.post .post-body p{
+    min-height: 30px;
+}
+.post .post-footer{
+    border-top: 1px solid rgb(185, 185, 185, 0.37);
+    padding: 3px;
+    background: white;
+}
+.post .post-header a{
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    .post{
+        width: 350px !important;
+        margin-bottom: 30px;
+    }
+    .card{
+        width: 350px !important; 
+        margin-bottom: 30px;
+    }
+}
+@media only screen and (min-width: 769px) {
+    .post{
+        width: 500px !important;
+        margin-bottom: 30px;
+    }
+    .card{
+        width: 500px !important; 
+        margin-bottom: 30px;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .post{
+        width: 700px !important;
+        margin-bottom: 30px;
+    }
+    .card{
+        width: 700px !important; 
+        margin-bottom: 30px;
+    }
+}
