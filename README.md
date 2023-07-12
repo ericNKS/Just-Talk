@@ -1,0 +1,1 @@
+Esse site é uma rede social estilo Twitter. Aqui você vai poder adicionar amigos, mostrar seus pensamentos para o mundo ou até mesmo xingar os famosos!
