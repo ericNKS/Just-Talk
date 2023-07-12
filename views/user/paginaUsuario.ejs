@@ -17,10 +17,19 @@
                         </div>
                         <div>
                             <% if(user.id != userFound.id){ %>
-                                <form action="/follow" method="post">
-                                    <input type="hidden" name="friendId" value="<%= userFound.id %>">
-                                    <button class="btn btn-primary">SEGUIR</button>
-                                </form>
+                                <% if(amigos){ %>
+                                    <form action="/unfollow" method="post">
+                                        <input type="hidden" name="friendId" value="<%= userFound.id %>">
+                                        <input type="hidden" name="friendNick" value="<%= userFound.nick %>">
+                                        <button class="btn btn-primary">UNFOLLOW</button>
+                                    </form>
+                                <% }else{ %>
+                                    <form action="/follow" method="post">
+                                        <input type="hidden" name="friendId" value="<%= userFound.id %>">
+                                        <input type="hidden" name="friendNick" value="<%= userFound.nick %>">
+                                        <button class="btn btn-primary">SEGUIR</button>
+                                    </form>
+                                <% } %>
                             <% } %>
 
                             <% if(user.id == userFound.id){ %>

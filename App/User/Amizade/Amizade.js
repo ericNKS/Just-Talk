@@ -12,6 +12,7 @@ const Amizade = connection.define('amizades',{
 });
 
 User.hasMany(Amizade);
+Amizade.belongsTo(User);
 
 Amizade.sync({force: false});
 

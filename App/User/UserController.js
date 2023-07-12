@@ -6,6 +6,7 @@ const session = require('express-session');
 const { Op } = require('sequelize');
 const Auth = require("../middleware/AuthMiddleware");
 const Conteudo = require("../Conteudo/Conteudo");
+const Amizade = require("./Amizade/Amizade");
 
 
 router.post('/store',(req,res)=>{
@@ -112,6 +113,7 @@ router.post('/logout', (req,res)=>{
 
 
 router.get('/u/:nick', Auth, (req,res)=>{
+    let userId = req.session.user.id;
     let nick = req.params.nick;
 
     if (nick != undefined || nick != '') {
@@ -124,9 +126,28 @@ router.get('/u/:nick', Auth, (req,res)=>{
                 [Conteudo, 'createdAt', 'DESC']
             ]
         }).then((user) => {
+            let friendId = user.id;
+            Amizade.findOne({
+                where:{
+                    friendId: friendId,
+                    userId: userId
+                }
+            }).then(amigos=>{
 
-            //res.json(user);
-            res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user});
+                if (amigos != undefined) {
+                    //res.json(user);
+                    res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:true});
+                }else{
+                    //res.json(user);
+                    res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:false});
+                }
+
+
+            }).catch(err=>{
+                console.log(err);
+                res.redirect('/home');
+            });
+
 
         }).catch((err) => {
             res.redirect('/home');
