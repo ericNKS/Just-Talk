@@ -1,0 +1,69 @@
+<%- include("../partials/header.ejs") %>
+<%- include("../partials/navbar.ejs") %>
+
+<div class="container">
+    
+    <div class="row">
+
+        <div class="col col-10">
+            <div class="setup-user">
+                <div class="fundo-user">
+                    <div class="img-user-background">
+                        aqui vai imagem de fundo
+                    </div>
+                    <div class="info-user">
+                        <div class="nick">
+                            <%= userFound.nick %>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary">SEGUIR</button>
+                            <% if(user.id == userFound.id){ %>
+                                <button class="btn btn-primary">CONFIGURACAO</button>
+                            <% } %>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="img-user">
+                    <p>Aqui vai a imagem do meliante</p>
+                </div>
+
+            </div>
+
+
+        </div>
+    
+        <div class="col col-10" style="background-color: #eaf3f4;">
+    
+            <div class="conteudos">
+        
+                <% conteudos.forEach(conteudo=>{ %>
+    
+                    <div class="post">
+                        <div class="post-header">
+                            <a class="link-info" href="#"><%= userFound.nick %></a>
+                        </div>
+                        <div class="post-body">
+                            <p><%= conteudo.body %></p>
+                        </div>
+                        <div class="post-footer">
+                            Like | comentar | enviar
+                        </div>
+                    </div>
+                
+                <% }) %>
+        
+                
+            </div>
+            
+        </div>
+
+        <%- include("../components/home/lateralHome") %>
+
+    </div>
+
+</div>
+
+
+
+<%- include("../partials/footer") %>

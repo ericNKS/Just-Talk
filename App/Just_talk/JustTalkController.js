@@ -25,11 +25,12 @@ router.get('/home', Auth, (req,res)=>{
         ]
     })
     .then(conteudos=>{
-        res.render('home', {conteudos: conteudos});
+        
+        res.render('home', {conteudos: conteudos, user: req.session.user});
     })
     .catch((err)=>{
         console.log(err);
-        res.redirect('/home');
+        res.redirect('/');
         return;
     });
 

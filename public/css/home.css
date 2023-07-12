@@ -29,6 +29,52 @@
     margin-left: 10px;
 }
 
+.setup-user{
+    height: 300px;
+    display: flex;
+    position: relative;
+    margin-bottom: 30px;
+    box-shadow: 0px 2px 20px #4c6d5e8c;
+}
+.fundo-user{
+    position: relative;
+    border: 1px solid black;
+    width: 100%;
+}
+.info-user{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 0px;
+    bottom: 0px;
+    margin: 7px;
+}
+.nick{
+    font-size: large;
+    font-weight: 500;
+    margin-right: 7px;
+}
+.img-user-background{
+    z-index: -1;
+    position: absolute;
+    background-color: #4c6d5eab;
+    width: 100%;
+    height: 100%;
+}
+.img-user{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    margin: 4px;
+}
+
 @media only screen and (max-width: 768px) {
     .post{
         width: 350px !important;

@@ -4,6 +4,8 @@ const User = require('./User');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const { Op } = require('sequelize');
+const Auth = require("../middleware/AuthMiddleware");
+const Conteudo = require("../Conteudo/Conteudo");
 
 
 router.post('/store',(req,res)=>{
@@ -106,5 +108,59 @@ router.post('/logout', (req,res)=>{
         res.redirect('/');
     });
 });
+
+
+
+router.get('/u/:nick', Auth, (req,res)=>{
+    let nick = req.params.nick;
+
+    if (nick != undefined || nick != '') {
+        User.findOne({
+            where:{
+                nick: nick
+            },
+            include: [Conteudo],
+            order: [
+                [Conteudo, 'createdAt', 'DESC']
+            ]
+        }).then((user) => {
+
+            //res.json(user);
+            res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user});
+
+        }).catch((err) => {
+            res.redirect('/home');
+        });
+
+
+    } else {
+        res.redirect('/home');
+    }
+    
+});
+
+router.post('/u/search', async(req,res)=>{
+    let nick = req.body.nick;
+
+    if (nick != undefined || nick != '') {
+        await User.findAll({
+            where: {
+              nick: {
+                [Op.like]: `%${nick}%`
+              }
+            }
+          }).then((users) => {
+            res.render('user/searchUser', {user: req.session.user, users});
+          }).catch((err) => {
+            console.log(err);
+            res.redirect('/home');
+            return;
+          });
+    } else {
+        
+    }
+});
+
+
 
 module.exports = router;
