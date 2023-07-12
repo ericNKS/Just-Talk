@@ -39,7 +39,7 @@ const ConteudoController = require('./App/Conteudo/ConteudoController');
 app.set("view engine", "ejs");
 
 // definindo a pasta publica
-app.use(express.static('Public'));
+app.use(express.static('public'));
 
 // Usando o bodyParser
 app.use(bodyParser.urlencoded({extended: false}));

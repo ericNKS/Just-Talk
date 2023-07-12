@@ -25,7 +25,6 @@ router.get('/home', Auth, (req,res)=>{
         ]
     })
     .then(conteudos=>{
-        console.log(conteudos.user);
         res.render('home', {conteudos: conteudos});
     })
     .catch((err)=>{
