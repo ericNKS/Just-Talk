@@ -28,11 +28,13 @@ connection
 
 // Models
 const User = require('./App/User/User');
+const Amizade = require('./App/User/Amizade/Amizade');
 const Conteudo = require('./App/Conteudo/Conteudo');
 
 // Controllers
 const JustTalkController = require('./App/Just_talk/JustTalkController');
 const UserController = require('./App/User/UserController');
+const AmizadeController = require('./App/User/Amizade/AmizadeController');
 const ConteudoController = require('./App/Conteudo/ConteudoController');
 
 // View engine
@@ -48,6 +50,7 @@ app.use(bodyParser.json());
 // JUST TALK routes
 app.use('/', JustTalkController);
 app.use('/', UserController);
+app.use('/', AmizadeController);
 app.use('/', ConteudoController);
 
 

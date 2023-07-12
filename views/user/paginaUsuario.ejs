@@ -16,7 +16,13 @@
                             <%= userFound.nick %>
                         </div>
                         <div>
-                            <button class="btn btn-primary">SEGUIR</button>
+                            <% if(user.id != userFound.id){ %>
+                                <form action="/follow" method="post">
+                                    <input type="hidden" name="friendId" value="<%= userFound.id %>">
+                                    <button class="btn btn-primary">SEGUIR</button>
+                                </form>
+                            <% } %>
+
                             <% if(user.id == userFound.id){ %>
                                 <button class="btn btn-primary">CONFIGURACAO</button>
                             <% } %>
