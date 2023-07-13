@@ -136,7 +136,6 @@ router.get('/u/:nick', Auth, (req,res)=>{
             }).then(async(amigos)=>{
 
                 let countAmizades = await CountAmizades(user.id)
-                console.log(countAmizades);
                 if (amigos != undefined) {
                     //res.json(user);
                     res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:true, countAmizades});
