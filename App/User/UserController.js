@@ -7,6 +7,7 @@ const { Op } = require('sequelize');
 const Auth = require("../middleware/AuthMiddleware");
 const Conteudo = require("../Conteudo/Conteudo");
 const Amizade = require("./Amizade/Amizade");
+const CountAmizades = require("./Amizade/CountAmizades");
 
 
 router.post('/store',(req,res)=>{
@@ -132,14 +133,16 @@ router.get('/u/:nick', Auth, (req,res)=>{
                     friendId: friendId,
                     userId: userId
                 }
-            }).then(amigos=>{
+            }).then(async(amigos)=>{
 
+                let countAmizades = await CountAmizades(user.id)
+                console.log(countAmizades);
                 if (amigos != undefined) {
                     //res.json(user);
-                    res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:true});
+                    res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:true, countAmizades});
                 }else{
                     //res.json(user);
-                    res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:false});
+                    res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:false, countAmizades});
                 }
 
 
@@ -164,7 +167,7 @@ router.post('/u/search', async(req,res)=>{
     let nick = req.body.nick;
 
     if (nick != undefined || nick != '') {
-        await User.findAll({
+        User.findAll({
             where: {
               nick: {
                 [Op.like]: `%${nick}%`

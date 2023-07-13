@@ -42,17 +42,16 @@
     width: 100%;
 }
 .info-user{
-    position: absolute;
     display: flex;
     align-items: center;
-    right: 0px;
-    bottom: 0px;
+    justify-content: space-between;
     margin: 7px;
 }
 .nick{
     font-size: large;
-    font-weight: 500;
+    font-weight: 600;
     margin-right: 7px;
+
 }
 .img-user-background{
     z-index: -1;
@@ -83,6 +82,10 @@
     .conteudos .card{
         width: 350px !important; 
         margin-bottom: 30px;
+    }
+    .info-user{
+        flex-direction: column;
+        padding-bottom: 10px;
     }
 }
 @media only screen and (min-width: 769px) {

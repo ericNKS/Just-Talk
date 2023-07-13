@@ -5,38 +5,11 @@
     
     <div class="row">
 
-        <div class="col col-10">
+        <div class="col col-12 mb-5">
             <div class="setup-user">
                 <div class="fundo-user">
                     <div class="img-user-background">
                         aqui vai imagem de fundo
-                    </div>
-                    <div class="info-user">
-                        <div class="nick">
-                            <%= userFound.nick %>
-                        </div>
-                        <div>
-                            <% if(user.id != userFound.id){ %>
-                                <% if(amigos){ %>
-                                    <form action="/unfollow" method="post">
-                                        <input type="hidden" name="friendId" value="<%= userFound.id %>">
-                                        <input type="hidden" name="friendNick" value="<%= userFound.nick %>">
-                                        <button class="btn btn-primary">UNFOLLOW</button>
-                                    </form>
-                                <% }else{ %>
-                                    <form action="/follow" method="post">
-                                        <input type="hidden" name="friendId" value="<%= userFound.id %>">
-                                        <input type="hidden" name="friendNick" value="<%= userFound.nick %>">
-                                        <button class="btn btn-primary">SEGUIR</button>
-                                    </form>
-                                <% } %>
-                            <% } %>
-
-                            <% if(user.id == userFound.id){ %>
-                                <button class="btn btn-primary">CONFIGURACAO</button>
-                            <% } %>
-                        </div>
-
                     </div>
                 </div>
                 <div class="img-user">
@@ -44,11 +17,43 @@
                 </div>
 
             </div>
+            <div class="info-user">
+                <div class="nick">
+                    <%= userFound.nick %>
+                </div>
+                <div class="friend">
+                    Seguidores: <%= countAmizades.followers %>
+                </div>
+                <div class="friend">
+                    Seguindo: <%= countAmizades.following %>
+                </div>
+                <div class="btn-follow">
+                    <% if(user.id != userFound.id){ %>
+                        <% if(amigos){ %>
+                            <form action="/unfollow" method="post">
+                                <input type="hidden" name="friendId" value="<%= userFound.id %>">
+                                <input type="hidden" name="friendNick" value="<%= userFound.nick %>">
+                                <button class="btn btn-primary">UNFOLLOW</button>
+                            </form>
+                        <% }else{ %>
+                            <form action="/follow" method="post">
+                                <input type="hidden" name="friendId" value="<%= userFound.id %>">
+                                <input type="hidden" name="friendNick" value="<%= userFound.nick %>">
+                                <button class="btn btn-primary">SEGUIR</button>
+                            </form>
+                        <% } %>
+                    <% } %>
 
+                    <% if(user.id == userFound.id){ %>
+                        <button class="btn btn-primary">CONFIGURACAO</button>
+                    <% } %>
+                </div>
+
+            </div>
 
         </div>
     
-        <div class="col col-10" style="background-color: #eaf3f4;">
+        <div class="col col-12 col-sm-10" style="background-color: #eaf3f4;">
     
             <div class="conteudos">
         

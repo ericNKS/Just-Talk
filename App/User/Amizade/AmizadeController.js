@@ -38,5 +38,36 @@ router.post('/follow',Auth, (req,res)=>{
 
 });
 
+router.post('/unfollow', Auth, async (req,res)=>{
+    let nick = req.session.user.nick;
+    let userId = req.session.user.id;
+    let friendId = req.body.friendId;
+    let friendNick = req.body.friendNick;
+
+    let amizade = await Amizade.findOne({
+        where: {
+            userId,
+            friendId
+        }
+    })
+    .catch(err=>{
+        res.redirect(`/u/${friendNick}`);
+    });
+
+    let unfollow = await Amizade.destroy({
+        where: {
+            id: amizade.id
+        }
+    }).catch(err=>{
+        console.log(err);
+        res.redirect(`/u/${friendNick}`);
+    });
+
+    if(unfollow){
+        res.redirect(`/u/${friendNick}`);
+    }else{
+        res.redirect(`/u/${friendNick}`);
+    }
+});
 
 module.exports = router;
