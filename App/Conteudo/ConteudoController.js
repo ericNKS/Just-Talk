@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Conteudo = require('./Conteudo');
 const Auth = require('../middleware/AuthMiddleware');
+const GetAllConteudos = require('./GetAllConteudos');
 
 router.post('/c/create', Auth, async (req,res)=>{
     let user = req.session.user;
@@ -25,6 +26,21 @@ router.post('/c/create', Auth, async (req,res)=>{
     }else{
         res.json({erro: "O campo body é invalido"});
     }
+});
+
+router.get('/explorar',Auth, async (req,res)=>{
+    console.log('chegou na rotar explorar');
+    try {
+        let GettedConteudos = await GetAllConteudos();
+
+        res.render('home', {conteudos: GettedConteudos, user: req.session.user, explorar: true});
+
+    } catch (error) {
+        console.log(error);
+        res.redirect('/home');
+        return;
+    }
+
 });
 
 
