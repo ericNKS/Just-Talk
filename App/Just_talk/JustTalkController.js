@@ -20,17 +20,21 @@ router.get('/home', Auth, async(req,res)=>{
     console.log('passou aqui antes de pegar os conteudos');
     database.query(
         `
-            select c.body, userFriend.nick as nick 
-                from
+            SELECT c.body, userFriend.nick as nick, c.createdAt
+                FROM
                     amizades as f left join users as u on(u.id = f.userId) 
                     right join conteudos as c on (c.userId = f.friendId) 
                     inner join users as userFriend on(userFriend.id = f.friendId) 
-                where 
-                    u.id = ${id};
+                WHERE 
+                    u.id = ${id}
+                ORDER BY
+                    c.createdAt DESC;
+
         `
         )
         .then((conteudos)=>{
             console.log('Corrigir erro de duplicação');
+            console.log('Corrigir erro de não mostrar a minha publicação');
             res.render('home', {conteudos: conteudos[0], user: req.session.user});
             //res.send(conteudos);
         })
