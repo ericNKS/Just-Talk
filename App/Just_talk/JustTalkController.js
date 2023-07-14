@@ -27,6 +27,8 @@ router.get('/home', Auth, async(req,res)=>{
                     inner join users as userFriend on(userFriend.id = f.friendId) 
                 WHERE 
                     u.id = ${id}
+                        or
+                    c.userId = ${id}
                 ORDER BY
                     c.createdAt DESC;
 
@@ -34,7 +36,6 @@ router.get('/home', Auth, async(req,res)=>{
         )
         .then((conteudos)=>{
             console.log('Corrigir erro de duplicação');
-            console.log('Corrigir erro de não mostrar a minha publicação');
             res.render('home', {conteudos: conteudos[0], user: req.session.user});
             //res.send(conteudos);
         })
