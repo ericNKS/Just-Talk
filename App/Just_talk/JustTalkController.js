@@ -27,8 +27,6 @@ router.get('/home', Auth, async(req,res)=>{
                     inner join users as userFriend on(userFriend.id = f.friendId) 
                 WHERE 
                     u.id = ${id}
-                        or
-                    c.userId = ${id}
                 ORDER BY
                     c.createdAt DESC;
 

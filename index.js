@@ -30,6 +30,7 @@ connection
 const User = require('./App/User/User');
 const Amizade = require('./App/User/Amizade/Amizade');
 const Conteudo = require('./App/Conteudo/Conteudo');
+const Like = require('./App/Conteudo/Likes/Like');
 
 // Controllers
 const JustTalkController = require('./App/Just_talk/JustTalkController');
