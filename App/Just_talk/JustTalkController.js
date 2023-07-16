@@ -7,6 +7,7 @@ const User = require("../User/User");
 const Amizade = require("../User/Amizade/Amizade");
 const CountAmizades = require("../User/Amizade/CountAmizades");
 const database = require('../../database/database');
+const GetFriendsConteduos = require("../Conteudo/GetFrindsConteudos");
 
 router.get('/',(req,res)=>{
 
@@ -17,7 +18,10 @@ router.get('/',(req,res)=>{
 router.get('/home', Auth, async(req,res)=>{
     let id = req.session.user.id;
 
-    console.log('passou aqui antes de pegar os conteudos');
+    let conteudos = await GetFriendsConteduos(id);
+    res.json(conteudos);
+
+    /*
     database.query(
         `
             SELECT c.body, userFriend.nick as nick, c.createdAt
@@ -45,30 +49,8 @@ router.get('/home', Auth, async(req,res)=>{
                 return;
             }
         })
+*/
 
-
-    // codigo antigo
-    /*
-    Conteudo.findAll({
-        include: [
-            {
-                model:User
-            }
-        ],
-        order:[
-            ['createdAt', 'DESC']
-        ]
-    })
-    .then(conteudos=>{
-        
-        res.render('home', {conteudos: conteudos, user: req.session.user});
-    })
-    .catch((err)=>{
-        console.log(err);
-        res.redirect('/');
-        return;
-    });
-    */
 
 });
 

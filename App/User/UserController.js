@@ -8,6 +8,7 @@ const Auth = require("../middleware/AuthMiddleware");
 const Conteudo = require("../Conteudo/Conteudo");
 const Amizade = require("./Amizade/Amizade");
 const CountAmizades = require("./Amizade/CountAmizades");
+const GetAmizades = require("./Amizade/GetAmizades");
 
 
 router.post('/store',(req,res)=>{
@@ -113,7 +114,7 @@ router.post('/logout', (req,res)=>{
 
 
 
-router.get('/u/:nick', Auth, (req,res)=>{
+router.get('/u/:nick', Auth, async(req,res)=>{
     let userId = req.session.user.id;
     let nick = req.params.nick;
 
@@ -126,29 +127,19 @@ router.get('/u/:nick', Auth, (req,res)=>{
             order: [
                 [Conteudo, 'createdAt', 'DESC']
             ]
-        }).then((user) => {
+        }).then(async(user) => {
             let friendId = user.id;
-            Amizade.findOne({
-                where:{
-                    friendId: friendId,
-                    userId: userId
-                }
-            }).then(async(amigos)=>{
+            let amigos = await GetAmizades(userId, friendId);
+            let countAmizades = await CountAmizades(user.id)
+            
+            if (amigos) {
+                //res.json(user);
+                res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:true, countAmizades});
+            }else{
+                //res.json(user);
+                res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:false, countAmizades});
+            }
 
-                let countAmizades = await CountAmizades(user.id)
-                if (amigos != undefined) {
-                    //res.json(user);
-                    res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:true, countAmizades});
-                }else{
-                    //res.json(user);
-                    res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:false, countAmizades});
-                }
-
-
-            }).catch(err=>{
-                console.log(err);
-                res.redirect('/home');
-            });
 
 
         }).catch((err) => {
