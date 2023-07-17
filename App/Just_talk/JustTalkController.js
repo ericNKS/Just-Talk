@@ -33,37 +33,6 @@ router.get('/home', Auth, async(req,res)=>{
         res.send(error);
     }
 
-    /*
-    database.query(
-        `
-            SELECT c.body, userFriend.nick as nick, c.createdAt
-                FROM
-                    amizades as f left join users as u on(u.id = f.userId) 
-                    right join conteudos as c on (c.userId = f.friendId) 
-                    inner join users as userFriend on(userFriend.id = f.friendId) 
-                WHERE 
-                    u.id = ${id}
-                ORDER BY
-                    c.createdAt DESC;
-
-        `
-        )
-        .then((conteudos)=>{
-            console.log('Corrigir erro de duplicação');
-            res.render('home', {conteudos: conteudos[0], user: req.session.user});
-            //res.send(conteudos);
-        })
-        .catch(err=>{
-            {
-                console.log("passou aqui no erro");
-                console.log(err);
-                res.redirect('/');
-                return;
-            }
-        })
-*/
-
-
 });
 
 module.exports = router;
