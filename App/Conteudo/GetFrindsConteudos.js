@@ -1,43 +1,33 @@
 const User = require('../User/User');
 const Conteudo = require('./Conteudo');
 const GetAmizades = require('../User/Amizade/GetAmizades');
+const GetAllConteudos = require('./GetAllConteudos');
 
-async function GetAllConteudos(id)
+async function GetFriendsConteudos(id)
 {
 
-    try {
-        
-        let amizades = await GetAmizades(id);
-        let arrayteste = [];
-// (...)
-        await amizades.forEach(async amizade => {
-            let userId = amizade.friendId
-            let getConteudos = await Conteudo.findAll({
-                include: [
-                    {
-                        model:User
-                    }
-                ],
-                where:{
-                    userId
-                },
-                order:[
-                    ['createdAt', 'DESC']
-                ]
-            }).catch(err=>{
-                console.log('erro no GetConteudos');
-            });
-            arrayteste.push(getConteudos[0]);
-        });
-        console.log('*********************************************************************************');
-        console.log(arrayteste);
-        return amizades[0];
+    let friendsConteudos = [];
+try {
+    const amizades = await GetAmizades(id);
+    for (const amizade of amizades) {
+        const friendId = amizade.friendId;
+        try {
+            const conteudos = await GetAllConteudos(friendId);
 
-    } catch (error) {
-        console.log("erroooooooo");
-        return error;
+            friendsConteudos.push(conteudos[0]);
+        } catch (err) {
+            console.log(err);
+        }
     }
+
+    return friendsConteudos;
+
+} catch (error) {
+    console.log("erroooooooo");
+    return error;
+}
+
 
 }
 
-module.exports = GetAllConteudos;
+module.exports = GetFriendsConteudos;

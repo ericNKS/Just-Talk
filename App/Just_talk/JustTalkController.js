@@ -8,6 +8,7 @@ const Amizade = require("../User/Amizade/Amizade");
 const CountAmizades = require("../User/Amizade/CountAmizades");
 const database = require('../../database/database');
 const GetFriendsConteduos = require("../Conteudo/GetFrindsConteudos");
+const GetAllConteudos = require("../Conteudo/GetAllConteudos");
 
 router.get('/',(req,res)=>{
 
@@ -18,8 +19,19 @@ router.get('/',(req,res)=>{
 router.get('/home', Auth, async(req,res)=>{
     let id = req.session.user.id;
 
-    let conteudos = await GetFriendsConteduos(id);
-    res.json(conteudos);
+    try {
+        let amigosConteudos = await GetFriendsConteduos(id);
+        let meusConteudos = await GetAllConteudos(id);
+        let conteudosJuntos = amigosConteudos.concat(meusConteudos)
+        conteudosJuntos.sort((a, b) => b.createdAt - a.createdAt);
+
+        //res.json(conteudosJuntos);
+        res.render('home', {conteudos: conteudosJuntos, user: req.session.user});
+
+    } catch (error) {
+        console.log(error);
+        res.send(error);
+    }
 
     /*
     database.query(

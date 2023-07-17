@@ -21,26 +21,24 @@
 
         <% conteudos.forEach(conteudo=>{ %>
 
-            <div class="post">
-                <div class="post-header">
-                    <% if((typeof explorar !== "undefined")){ %>
-                        <a class="link-info" href="/u/<%= conteudo.user.nick %>"><%= conteudo.user.nick %></a>
-                    <% }else{ %>
-                        <a class="link-info" href="/u/<%= conteudo.nick %>"><%= conteudo.nick %></a>
-                    <% } %>
+            <% if(conteudo != null){ %>
+                <div class="post">
+                    <div class="post-header">
+                            <a class="link-info" href="/u/<%= conteudo.user.nick %>"><%= conteudo.user.nick %></a>
+                    </div>
+                    <div class="post-body">
+                        <p><%= conteudo.body %></p>
+                    </div>
+                    <div class="post-footer">
+    
+                        <form action="" method="post">
+                            <input type="hidden" value="<%= conteudo.id %>">
+                        </form>
+    
+                        Like | comentar 
+                    </div>
                 </div>
-                <div class="post-body">
-                    <p><%= conteudo.body %></p>
-                </div>
-                <div class="post-footer">
-
-                    <form action="" method="post">
-                        <input type="hidden" value="<%= conteudo.id %>">
-                    </form>
-
-                    Like | comentar 
-                </div>
-            </div>
+            <% } %>
 
         <% }) %>
 
