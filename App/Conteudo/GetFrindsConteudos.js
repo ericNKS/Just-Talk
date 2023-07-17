@@ -23,7 +23,7 @@ try {
     return friendsConteudos;
 
 } catch (error) {
-    console.log("erroooooooo");
+    console.log(error);
     return error;
 }
 

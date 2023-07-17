@@ -3,8 +3,11 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const database = "./database/database";
 const connection = require(database);
+const cors = require('cors');
 const port = 8080;
 const app = express();
+
+app.use(cors());
 
 // Session
 let tempoSession = 3600000;
@@ -37,6 +40,7 @@ const JustTalkController = require('./App/Just_talk/JustTalkController');
 const UserController = require('./App/User/UserController');
 const AmizadeController = require('./App/User/Amizade/AmizadeController');
 const ConteudoController = require('./App/Conteudo/ConteudoController');
+const LikeController = require('./App/Conteudo/Likes/LikeController');
 
 // View engine
 app.set("view engine", "ejs");
@@ -53,6 +57,7 @@ app.use('/', JustTalkController);
 app.use('/', UserController);
 app.use('/', AmizadeController);
 app.use('/', ConteudoController);
+app.use('/', LikeController);
 
 
 
