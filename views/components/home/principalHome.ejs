@@ -1,4 +1,4 @@
-<div class="col col-12 col-md-10" style="background-color: #eaf3f4;">
+<div class="col col-12 col-md-10" style="box-shadow: rgba(0, 0, 0, 0.116) 1px 8px 24px;">
 
     <div class="conteudos">
 
@@ -22,7 +22,7 @@
         <% conteudos.forEach(conteudo=>{ %>
 
             <% if(conteudo != null){ %>
-                <div class="post">
+                <div class="post card">
                     <div class="post-header">
                             <a class="link-info" href="/u/<%= conteudo.user.nick %>"><%= conteudo.user.nick %></a>
                     </div>
