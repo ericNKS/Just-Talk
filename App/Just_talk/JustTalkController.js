@@ -25,7 +25,7 @@ router.get('/home', Auth, async(req,res)=>{
         let conteudosJuntos = amigosConteudos.concat(meusConteudos)
         conteudosJuntos.sort((a, b) => b.createdAt - a.createdAt);
 
-        //res.json(conteudosJuntos);
+        //res.json(conteudosJuntos[0].likes);
         res.render('home', {conteudos: conteudosJuntos, user: req.session.user});
 
     } catch (error) {

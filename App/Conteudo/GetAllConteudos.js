@@ -37,8 +37,10 @@ async function GetAllConteudos(id)
             let getConteudos = await Conteudo.findAll({
                 include: [
                     {
-                        model:User
-                    }
+                        model: User,
+                        attributes: ['nick']
+                    },
+                    Like
                 ],
                 order:[
                     ['createdAt', 'DESC']

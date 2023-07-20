@@ -33,9 +33,9 @@
                     <input id="conteudoId" type="hidden" value="<%= conteudo.id %>">
                     <input id="userId" type="hidden" value="<%= user.id %>">
                     <% if(conteudo.likes.length > 0){ %>
-                        <button class="btn btn-sm btn-outline-danger" onclick="unLike(<%= conteudo.id %>, <%= user.id %>)">Deslike</button> 
+                        <button class="btn btn-sm btn-outline-danger" onclick="unLike(<%= conteudo.id %>, <%= user.id %>, this)">Deslike</button> 
                     <% }else{ %>
-                        <button class="btn btn-sm btn-outline-danger" onclick="like(<%= conteudo.id %>, <%= user.id %>)">Like</button> 
+                        <button class="btn btn-sm btn-outline-danger" onclick="like(<%= conteudo.id %>, <%= user.id %>, this)">Like</button> 
                     <% } %>
                     <button class="btn btn-sm btn-outline-danger">Comentar</button> 
                     </div>
@@ -54,14 +54,16 @@
 <script>
 
 
-    function like(conteudoId, userId){
+    function like(conteudoId, userId, btn){
         if (conteudoId != undefined || conteudoId != '') {
             axios.post('http://localhost:8080/c/like',{
             conteudoId,
             userId
         })
             .then((response)=>{
-                console.log(response);
+                btn.innerHTML = 'Deslike'
+                btn.onclick = () => unLike(conteudoId,userId,btn)
+                console.log(response.status);
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -69,13 +71,15 @@
         }
     }
 
-    function unLike(conteudoId, userId){
+    function unLike(conteudoId, userId, btn){
 
         if (conteudoId != undefined || conteudoId != '') {
             console.log(conteudoId + " | " + userId);
             axios.delete(`http://localhost:8080/c/like/${userId}/${conteudoId}`,)
             .then((response)=>{
-                console.log(response);
+                btn.innerHTML = 'Like'
+                btn.onclick = () => unLike(conteudoId,userId,btn)
+                console.log(response.status);
             }).catch(err=>{
                 console.log(err);
             });
