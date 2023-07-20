@@ -1,4 +1,5 @@
 const User = require('../User/User');
+const Like = require('./Likes/Like');
 const Conteudo = require('./Conteudo');
 
 async function GetAllConteudos(id)
@@ -10,8 +11,10 @@ async function GetAllConteudos(id)
             let getConteudos = await Conteudo.findAll({
                 include: [
                     {
-                        model:User
-                    }
+                        model: User,
+                        attributes: ['nick']
+                    },
+                    Like
                 ],
                 where: {
                     userId: id

@@ -6,8 +6,9 @@ const Like = require('./Like');
 router.post('/c/like', async(req,res)=>{
     let userId = req.body.userId;
     let conteudoId = req.body.conteudoId;
+    console.log(req.body);
     console.log("************************* CORRIGIR ERRO *************************");
-    console.log("Nao curte no mobile and todos os liks sao no mesmo id (26)");
+    console.log("Nao curte no mobile");
     
     if(userId != undefined || userId != ''){
 
@@ -35,10 +36,11 @@ router.post('/c/like', async(req,res)=>{
     
 });
 
-router.delete('/c/like', async(req,res)=>{
-    let userId = req.body.userId;
-    let conteudoId = req.body.conteudoId;
-    console.log(req.body);
+router.delete('/c/like/:userId/:conteudoId', async(req,res)=>{
+    let {userId, conteudoId} = req.params;
+    
+    console.log(conteudoId + " | " + userId);
+
     if(userId != undefined || userId != ''){
 
         if (conteudoId != undefined || conteudoId != '') {
