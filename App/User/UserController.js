@@ -9,6 +9,7 @@ const Conteudo = require("../Conteudo/Conteudo");
 const Amizade = require("./Amizade/Amizade");
 const CountAmizades = require("./Amizade/CountAmizades");
 const GetAmizades = require("./Amizade/GetAmizades");
+const GetAllConteudos = require("../Conteudo/GetAllConteudos");
 
 
 router.post('/store',(req,res)=>{
@@ -115,7 +116,8 @@ router.post('/logout', (req,res)=>{
 
 
 router.get('/u/:nick', Auth, async(req,res)=>{
-    let userId = req.session.user.id;
+    let loggedUser = req.session.user
+    let userId = loggedUser.id;
     let nick = req.params.nick;
 
     if (nick != undefined || nick != '') {
@@ -123,21 +125,18 @@ router.get('/u/:nick', Auth, async(req,res)=>{
             where:{
                 nick: nick
             },
-            include: [Conteudo],
-            order: [
-                [Conteudo, 'createdAt', 'DESC']
-            ]
         }).then(async(user) => {
             let friendId = user.id;
+            let conteudos = await GetAllConteudos(friendId);
             let amigos = await GetAmizades(userId, friendId);
             let countAmizades = await CountAmizades(user.id)
             
             if (amigos) {
                 //res.json(user);
-                res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:true, countAmizades});
+                res.render('user/paginaUsuario', {user: loggedUser, conteudos, userFound: user, amigos:true, countAmizades});
             }else{
                 //res.json(user);
-                res.render('user/paginaUsuario', {user: req.session.user, conteudos: user.conteudos, userFound: user, amigos:false, countAmizades});
+                res.render('user/paginaUsuario', {user: loggedUser, conteudos, userFound: user, amigos:false, countAmizades});
             }
 
 

@@ -17,7 +17,8 @@ router.get('/',(req,res)=>{
 });
 
 router.get('/home', Auth, async(req,res)=>{
-    let id = req.session.user.id;
+    let user = req.session.user
+    let id = user.id;
 
     try {
         let amigosConteudos = await GetFriendsConteduos(id);
@@ -26,7 +27,7 @@ router.get('/home', Auth, async(req,res)=>{
         conteudosJuntos.sort((a, b) => b.createdAt - a.createdAt);
 
         //res.json(amigosConteudos);
-        res.render('home', {conteudos: conteudosJuntos, user: req.session.user});
+        res.render('home', {conteudos: conteudosJuntos, user});
 
     } catch (error) {
         console.log(error);
