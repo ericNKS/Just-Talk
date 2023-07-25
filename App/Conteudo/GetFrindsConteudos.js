@@ -12,15 +12,14 @@ try {
     for (const amizade of amizades) {
         const friendId = amizade.friendId;
         try {
-            const conteudos = await GetAllConteudos(friendId);
-
-            friendsConteudos.push(conteudos[0]);
+            let conteudos = await GetAllConteudos(friendId);
+            
+            friendsConteudos.push(conteudos);
         } catch (err) {
             console.log(err);
         }
     }
-
-    return friendsConteudos;
+    return friendsConteudos[0];
 
 } catch (error) {
     console.log(error);

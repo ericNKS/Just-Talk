@@ -25,14 +25,13 @@ router.get('/home', Auth, async(req,res)=>{
         let conteudosJuntos = amigosConteudos.concat(meusConteudos)
         conteudosJuntos.sort((a, b) => b.createdAt - a.createdAt);
 
-        //res.json(conteudosJuntos[0].likes);
+        //res.json(amigosConteudos);
         res.render('home', {conteudos: conteudosJuntos, user: req.session.user});
 
     } catch (error) {
         console.log(error);
         res.send(error);
     }
-
 });
 
 module.exports = router;

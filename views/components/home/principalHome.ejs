@@ -32,11 +32,12 @@
                     <div class="post-footer">
                     <input id="conteudoId" type="hidden" value="<%= conteudo.id %>">
                     <input id="userId" type="hidden" value="<%= user.id %>">
-                    <% if(conteudo.likes.length > 0){ %>
+                    <% if(!conteudo.likes.findIndex((like) => like.userId == user.id)){ %>
                         <button class="btn btn-sm btn-outline-danger" onclick="unLike(<%= conteudo.id %>, <%= user.id %>, this)">Deslike</button> 
                     <% }else{ %>
                         <button class="btn btn-sm btn-outline-danger" onclick="like(<%= conteudo.id %>, <%= user.id %>, this)">Like</button> 
                     <% } %>
+                    <button id="amountLike<%= conteudo.id %>" class="btn" disabled><%= conteudo.likes.length %></button>
                     <button class="btn btn-sm btn-outline-danger">Comentar</button> 
                     </div>
                 </div>
@@ -53,6 +54,18 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
+    async function countLike(conteudoId){
+        let amountLike = document.querySelector(`#amountLike${conteudoId}`);
+        if (conteudoId != undefined || conteudoId != '') {
+            axios.get(`http://localhost:8080/c/like/${conteudoId}`,)
+            .then((response)=>{
+                amountLike.innerHTML = response.data.likeAmount;
+                console.log(response.data.likeAmount);
+                }).catch(err=>{
+                    console.log(err);
+                });
+        }
+    }
 
     function like(conteudoId, userId, btn){
         if (conteudoId != undefined || conteudoId != '') {
@@ -63,7 +76,7 @@
             .then((response)=>{
                 btn.innerHTML = 'Deslike'
                 btn.onclick = () => unLike(conteudoId,userId,btn)
-                console.log(response.status);
+                countLike(conteudoId);
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -74,12 +87,11 @@
     function unLike(conteudoId, userId, btn){
 
         if (conteudoId != undefined || conteudoId != '') {
-            console.log(conteudoId + " | " + userId);
             axios.delete(`http://localhost:8080/c/like/${userId}/${conteudoId}`,)
             .then((response)=>{
-                btn.innerHTML = 'Like'
-                btn.onclick = () => unLike(conteudoId,userId,btn)
-                console.log(response.status);
+                btn.innerHTML = 'Like';
+                btn.onclick = () => like(conteudoId,userId,btn);
+                countLike(conteudoId);
             }).catch(err=>{
                 console.log(err);
             });

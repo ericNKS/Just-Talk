@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const Auth = require('../../middleware/AuthMiddleware');
 const Like = require('./Like');
+const CountLike = require('./CountLike');
+
+router.get('/c/like/:conteudoId', async(req,res)=>{
+    console.log('chegamos no conta like');
+    let conteudoId = req.params.conteudoId;
+    try{
+        let likeAmount = await CountLike(conteudoId);
+        req.statusCode = 200;
+        res.json({likeAmount});
+    }catch(err){
+        req.statusCode = 404;
+        req.json(err);
+    }
+});
 
 router.post('/c/like', async(req,res)=>{
     let userId = req.body.userId;
