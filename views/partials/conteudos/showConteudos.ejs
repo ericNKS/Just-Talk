@@ -1,0 +1,25 @@
+<% conteudos.forEach(conteudo=>{ %>
+
+    <% if(conteudo != null){ %>
+        <div class="post card">
+            <div class="post-header">
+                    <a class="link-info" href="/u/<%= conteudo.user.nick %>"><%= conteudo.user.nick %></a>
+            </div>
+            <div class="post-body">
+                <p><%= conteudo.body %></p>
+            </div>
+            <div class="post-footer">
+            <input id="conteudoId" type="hidden" value="<%= conteudo.id %>">
+            <input id="userId" type="hidden" value="<%= user.id %>">
+            <% if(conteudo.likes.some((like) => like.userId == user.id)){ %>
+                <button class="btn btn-sm btn-outline-danger" onclick="unLike(<%= conteudo.id %>, <%= user.id %>, this)">Deslike</button> 
+            <% }else{ %>
+                <button class="btn btn-sm btn-outline-danger" onclick="like(<%= conteudo.id %>, <%= user.id %>, this)">Like</button> 
+            <% } %>
+            <button id="amountLike<%= conteudo.id %>" class="btn" disabled><%= conteudo.likes.length %></button>
+            <button class="btn btn-sm btn-outline-danger">Comentar</button> 
+            </div>
+        </div>
+    <% } %>
+
+<% }) %>

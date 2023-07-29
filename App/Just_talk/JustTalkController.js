@@ -35,4 +35,19 @@ router.get('/home', Auth, async(req,res)=>{
     }
 });
 
+router.get('/explorar',Auth, async (req,res)=>{
+    console.log('chegou na rotar explorar');
+    try {
+        let GettedConteudos = await GetAllConteudos();
+        //res.json(GettedConteudos)
+        res.render('explorar', {conteudos: GettedConteudos, user: req.session.user, explorar: true});
+
+    } catch (error) {
+        console.log(error);
+        res.redirect('/home');
+        return;
+    }
+
+});
+
 module.exports = router;
