@@ -4,8 +4,21 @@ const session = require('express-session');
 const database = "./database/database";
 const connection = require(database);
 const cors = require('cors');
-const port = 8080;
+const multer = require("multer"); // biblioteca para salvar arquivos
+const port = 8000;
 const app = express();
+
+const storage = multer.diskStorage({
+    destination: function(req,file,cb){
+        cb(null, 'uploads/');
+    },
+    filename: function(req,file,cb){
+        cb(null, Date.now() + file.originalname);
+    }
+}); // mudar a extensao dos arquivos
+
+const upload = multer({storage}); // criando o methodo de upload com a pasta de destino nao podendo conter / no inicio se n vai criar em node_modules
+
 
 app.use(cors());
 
@@ -59,6 +72,12 @@ app.use('/', AmizadeController);
 app.use('/', ConteudoController);
 app.use('/', LikeController);
 
+app.get('/teste', (req, res)=>{
+    res.render('uploadTest');
+});
+app.post('/upload',upload.single("file"), (req, res)=>{
+    res.send('arquivo recebido');
+});
 
 
 // app escutando

@@ -4,9 +4,8 @@ const Conteudo = require('./Conteudo');
 const Auth = require('../middleware/AuthMiddleware');
 const GetAllConteudos = require('./GetAllConteudos');
 
-router.post('/c/create', Auth, async (req,res)=>{
-    let user = req.session.user;
-    let body = req.body.conteudo;
+router.post('/c/create', async (req,res)=>{
+    let {user, body} = req.body;
 
     if(body != undefined){
         if (body != '') {
@@ -14,16 +13,20 @@ router.post('/c/create', Auth, async (req,res)=>{
                 body: body,
                 userId: user.id
             }).then((conteudo) => {
-                res.redirect('/home');
+                res.statusCode = 200
+                res.json(conteudo);
             }).catch((err) => {
                 console.log(err);
-                res.redirect('/home');
+                res.statusCode = 400
+                res.json(err);
                 return;
             });
         } else {
+            res.statusCode = 400
             res.json({erro: "O campo body nao pode ser vazio"});
         }
     }else{
+        res.statusCode = 400
         res.json({erro: "O campo body é invalido"});
     }
 });
