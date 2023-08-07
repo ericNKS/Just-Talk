@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require('./User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const session = require('express-session');
 const { Op } = require('sequelize');
 const Auth = require("../middleware/AuthMiddleware");
@@ -10,6 +11,7 @@ const Amizade = require("./Amizade/Amizade");
 const CountAmizades = require("./Amizade/CountAmizades");
 const GetAmizades = require("./Amizade/GetAmizades");
 const GetAllConteudos = require("../Conteudo/GetAllConteudos");
+const secret = "akldjhadbnaldaldasjhoinjsdfjkpdfsklpdsfkjsdfghio";
 
 
 router.post('/store',(req,res)=>{
@@ -80,7 +82,7 @@ router.post('/store',(req,res)=>{
 
 router.post('/login',(req,res)=>{
     let {email, password} = req.body;
-
+    console.log(email);
     User.findOne({
         where:{
             email: email
@@ -90,20 +92,21 @@ router.post('/login',(req,res)=>{
             let correct_password = bcrypt.compareSync(password, user.password);
 
             if (correct_password) {
-                req.session.user = {
-                    id: user.id,
-                    nick: user.nick
-                }
-                res.redirect('/home');
+                let token = jwt.sign({id: user.id,nick: user.nick}, secret);
+                res.statusCode = 200;
+                res.json({token})
             }else{
+                res.statusCode = 406;
                 res.json({erro: "A senha esta incorreta"});
             }
 
         }else{
+            res.statusCode = 404;
             res.json({erro: "O usuario nao foi encontrado"});
         }
     }).catch((err) => {
-        res.json('erro');
+        res.statusCode = 400;
+        res.json({err:err});
     });
 });
 

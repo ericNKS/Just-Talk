@@ -1,11 +1,17 @@
+const jwt = require('jsonwebtoken');
+const secret = "akldjhadbnaldaldasjhoinjsdfjkpdfsklpdsfkjsdfghio";
 function Auth(req,res,next) {
-    let user = req.session.user;
-    if (user) {
-        // Se tiver na sessao o usuario ele vai permitir ir para a pagina home
+    const authToken = req.headers['authorization'];
+    if (authToken != undefined) {
+        const bearer = authToken.split(' ')
+        let token = bearer[1];
+
+        var decode = jwt.verify(token, secret);
+
         next();
     }else{
-        // Se nao tiver usuario ele vai redirecionar para o index para poder logar ou criar a conta
-        res.redirect('/');
+        res.statusCode = 403;
+        res.json({err: "Você não esta autenticado"});
     }
 }
 

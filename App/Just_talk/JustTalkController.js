@@ -9,6 +9,8 @@ const CountAmizades = require("../User/Amizade/CountAmizades");
 const database = require('../../database/database');
 const GetFriendsConteduos = require("../Conteudo/GetFrindsConteudos");
 const GetAllConteudos = require("../Conteudo/GetAllConteudos");
+const jwt = require('jsonwebtoken');
+const secret = "akldjhadbnaldaldasjhoinjsdfjkpdfsklpdsfkjsdfghio";
 
 router.get('/',(req,res)=>{
 
@@ -17,17 +19,21 @@ router.get('/',(req,res)=>{
 });
 
 router.get('/home', Auth, async(req,res)=>{
-    let user = req.session.user
-    let id = user.id;
+    const bearer = req.headers['authorization'].split(' ');
+    let token = bearer[1];
+    let {nick, id} = jwt.verify(token,secret);
+
+    //res.json({nick,id});
+
 
     try {
         let amigosConteudos = await GetFriendsConteduos(id);
         let meusConteudos = await GetAllConteudos(id);
-        let conteudosJuntos = amigosConteudos.concat(meusConteudos)
-        conteudosJuntos.sort((a, b) => b.createdAt - a.createdAt);
+        let conteudos = amigosConteudos.concat(meusConteudos)
+        conteudos.sort((a, b) => b.createdAt - a.createdAt);
 
-        //res.json(amigosConteudos);
-        res.render('home', {conteudos: conteudosJuntos, user});
+        res.json({conteudos, nick});
+        //res.render('home', {conteudos: conteudosJuntos, user});
 
     } catch (error) {
         console.log(error);
